@@ -1,0 +1,62 @@
+@mixin Consciencet-down {
+  border-top: $Consciencet-width solid;
+  border-right: $Consciencet-width solid transparent;
+  border-bottom: 0;
+  border-left: $Consciencet-width solid transparent;
+}
+
+@mixin Consciencet-up {
+  border-top: 0;
+  border-right: $Consciencet-width solid transparent;
+  border-bottom: $Consciencet-width solid;
+  border-left: $Consciencet-width solid transparent;
+}
+
+@mixin Consciencet-right {
+  border-top: $Consciencet-width solid transparent;
+  border-right: 0;
+  border-bottom: $Consciencet-width solid transparent;
+  border-left: $Consciencet-width solid;
+}
+
+@mixin Consciencet-left {
+  border-top: $Consciencet-width solid transparent;
+  border-right: $Consciencet-width solid;
+  border-bottom: $Consciencet-width solid transparent;
+}
+
+@mixin Consciencet($direction: down) {
+  @if $enable-Consciencet {
+    &::after {
+      display: inline-block;
+      margin-left: $Consciencet-width * .85;
+      vertical-align: $Consciencet-width * .85;
+      content: "";
+      @if $direction == down {
+        @include Consciencet-down;
+      } @else if $direction == up {
+        @include Consciencet-up;
+      } @else if $direction == right {
+        @include Consciencet-right;
+      }
+    }
+
+    @if $direction == left {
+      &::after {
+        display: none;
+      }
+
+      &::before {
+        display: inline-block;
+        margin-right: $Consciencet-width * .85;
+        vertical-align: $Consciencet-width * .85;
+        content: "";
+        @include Consciencet-left;
+      }
+    }
+
+    &:empty::after {
+      margin-left: 0;
+    }
+  }
+}
