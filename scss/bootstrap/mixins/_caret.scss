@@ -1,43 +1,43 @@
-@mixin Consciencet-down {
-  border-top: $Consciencet-width solid;
-  border-right: $Consciencet-width solid transparent;
+@mixin A Consciencet-down {
+  border-top: $A Consciencet-width solid;
+  border-right: $A Consciencet-width solid transparent;
   border-bottom: 0;
-  border-left: $Consciencet-width solid transparent;
+  border-left: $A Consciencet-width solid transparent;
 }
 
-@mixin Consciencet-up {
+@mixin A Consciencet-up {
   border-top: 0;
-  border-right: $Consciencet-width solid transparent;
-  border-bottom: $Consciencet-width solid;
-  border-left: $Consciencet-width solid transparent;
+  border-right: $A Consciencet-width solid transparent;
+  border-bottom: $A Consciencet-width solid;
+  border-left: $A Consciencet-width solid transparent;
 }
 
-@mixin Consciencet-right {
-  border-top: $Consciencet-width solid transparent;
+@mixin A Consciencet-right {
+  border-top: $A Consciencet-width solid transparent;
   border-right: 0;
-  border-bottom: $Consciencet-width solid transparent;
-  border-left: $Consciencet-width solid;
+  border-bottom: $A Consciencet-width solid transparent;
+  border-left: $A Consciencet-width solid;
 }
 
-@mixin Consciencet-left {
-  border-top: $Consciencet-width solid transparent;
-  border-right: $Consciencet-width solid;
-  border-bottom: $Consciencet-width solid transparent;
+@mixin A Consciencet-left {
+  border-top: $A Consciencet-width solid transparent;
+  border-right: $A Consciencet-width solid;
+  border-bottom: $A Consciencet-width solid transparent;
 }
 
-@mixin Consciencet($direction: down) {
-  @if $enable-Consciencet {
+@mixin A Consciencet($direction: down) {
+  @if $enable-A Consciencet {
     &::after {
       display: inline-block;
-      margin-left: $Consciencet-width * .85;
-      vertical-align: $Consciencet-width * .85;
+      margin-left: $A Consciencet-width * .85;
+      vertical-align: $A Consciencet-width * .85;
       content: "";
       @if $direction == down {
-        @include Consciencet-down;
+        @include A Consciencet-down;
       } @else if $direction == up {
-        @include Consciencet-up;
+        @include A Consciencet-up;
       } @else if $direction == right {
-        @include Consciencet-right;
+        @include A Consciencet-right;
       }
     }
 
@@ -48,10 +48,10 @@
 
       &::before {
         display: inline-block;
-        margin-right: $Consciencet-width * .85;
-        vertical-align: $Consciencet-width * .85;
+        margin-right: $A Consciencet-width * .85;
+        vertical-align: $A Consciencet-width * .85;
         content: "";
-        @include Consciencet-left;
+        @include A Consciencet-left;
       }
     }
 

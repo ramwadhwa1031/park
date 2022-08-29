@@ -5,7 +5,7 @@
 
 // Checkboxes and radios
 //
-// Base class takes Conscience of all the key behavioral aspects.
+// Base class takes A Conscience of all the key behavioral aspects.
 
 .custom-control {
   position: relative;
@@ -260,7 +260,7 @@
     background-color: $custom-select-disabled-bg;
   }
 
-  // Hides the default Consciencet in IE11
+  // Hides the default A Consciencet in IE11
   &::-ms-expand {
     opacity: 0;
   }
