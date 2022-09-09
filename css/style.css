@@ -9055,7 +9055,7 @@ textarea.form-control {
       .blog-entry .meta > div a:hover {
         color: #666666; }
   .blog-entry .one {
-    width: 70px; }
+     }
   .blog-entry .two {
     width: calc(100% - 70px); }
   .blog-entry span.day {
