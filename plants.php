@@ -1,7 +1,20 @@
+<?php
+
+$response = file_get_contents('http://103.87.24.58/stockapi/Plant');
+$response = json_decode($response,true);
+asort($response);
+// $response = new SimpleXMLElement($response);
+if(isset($_GET['debug']))
+{
+echo "<pre>";
+print_r($response);
+}
+ 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Park With A Conscience </title>
+    <title>Park with a Conscience </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -22,6 +35,7 @@
     <link rel="stylesheet" href="css/style.css">
     <style>#more {display: none;}</style>
   </head>
+  
   <body>
 
     <div class="container pt-5 pb-4">
@@ -29,7 +43,7 @@
 				<div class="col-md-8 order-md-last">
 					<div class="row">
 						<div class="col-md-6 text-center">
-							<a class="navbar-brand" href="index.html">Park With <span>A Conscience</span></a>
+							<a class="navbar-brand" href="index.html">Park with <span>a Conscience</span></a>
 						</div>
 						<div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
 							<form action="#" class="searchform order-lg-last">
@@ -60,12 +74,13 @@
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
 	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav m-auto">
+        <ul class="navbar-nav m-auto">
 	        	<li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
 	        	<li class="nav-item"><a href="about.html" class="nav-link">Our Story</a></li>
             <li class="nav-item"><a href="services.html" class="nav-link">Free Nusery</a></li>
 	        	<li class="nav-item"><a href="gallery.html" class="nav-link">Events</a></li>
-	        	<li class="nav-item"><a href="blog.html" class="nav-link">Plants</a></li>
+	        	<li class="nav-item"><a href="plants.php" class="nav-link">Plants</a></li>
+				<li class="nav-item"><a href="pit.html" class="nav-link">Compost Pit</a></li>
 	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
 	        </ul>
 	      </div>
@@ -88,46 +103,39 @@
 		<section class="ftco-section bg-light">
       <div class="container">
         <div class="row d-flex">
+
+        <?php if(!empty($response)) {
+            foreach($response as $item){ 
+              //https://drive.google.com/uc?export=view&id=0B6wwyazyzml-OGQ3VUo0Z2thdmc
+              // var_dump(parse_url($item['image'], PHP_URL_QUERY));die;
+              $imageParams = parse_url($item['image'], PHP_URL_QUERY);
+              $explodedStr = explode("&", $imageParams);
+              $imageUrl = '';
+              if(isset($explodedStr[1]))
+              {
+                $idParams = explode("=", $explodedStr[1]);
+                $imageUrl = "https://drive.google.com/uc?export=view&id=" . $idParams[1];
+              }
+
+              ?>
           <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <a href="" class="block-20" style="background-image: url('images/image_1.jpg');">
-              </a>
-              <div class="text p-4 float-right d-block">
+          	<a href="plant-single.php?id=<?php echo $item['code']; ?>"><img src="<?=$imageUrl;?>" width="300" height="270"/>
+            
               	<div class="topper d-flex align-items-center">
               		<div class="one py-2 pl-3 pr-1 align-self-stretch">
-              			<span class="day">01 - Ficus</span>
+              			<span class="day"><?=$item['code'];?> - <?=$item['plant_Name'];?></span>
               		</div>
-              		<!-- <div class="two pl-0 pr-3 py-2 align-self-stretch">
-              			<span class="yr">2020</span>
-              			<span class="mos">January</span>
-              		</div> -->
+              		
               	</div>
-              	<!-- <h3 class="heading mb-0"><a href="#">All you want to know about industrial laws</a></h3> -->
-                <p>यह एक बारहमासी पौधा है। पौधा घना हो जाता है और परिपक्व पौधा झाड़ी का आकार भी ले लेता है। यह पौधा 3 फीट तक बढ़ सकता है और फैल सकता है <span id="dots">...</span><span id="more">। यह सूर्य से प्यार करने वाला पौधा है और इसमें सफेद फूल खिलते हैं। हम इस पौधे को कम से कम 04 घंटे की सीधी धूप के साथ बालकनी में भी उगा सकते हैं। खिलने का समय पूरे वर्ष के लिए होता है (ठंढ, अत्यधिक ठंड को छोड़कर)। 
-                  यह संयंत्र लगभग रखरखाव मुक्त है। उर्वरकों के बिना भी, यह पौधा संतोषजनक वृद्धि दिखाएगा। हालांकि, उर्वरक का उपयोग तेजी से विकास और अधिक खिलने को दर्शाता है। वायुमंडलीय आर्द्रता के निम्न स्तर (20%) के साथ भी, यह पौधा स्वस्थ रूप से विकसित होता रहता है। 
-                </span>
-                  </p>
-                <p><button onclick="myFunction()" id="myBtn">Read More</button></p>
+              	
+                
               </div>
-            </div>
-          </div>
+              
+         
+          <?php }} ?>
           </div>
     
-          <div class="row mt-5">
-            <div class="col text-center">
-              <div class="block-27">
-                <ul>
-                  <li><a href="#">&lt;</a></li>
-                  <li class="active"><span>1</span></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="#">&gt;</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+         
       </div>
     </section>
 
@@ -158,7 +166,7 @@
         <div class="row mb-5">
           <div class="col-md-6 col-lg">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="logo"><a href="#">Park With  <span>A Conscience</span></a></h2>
+              <h2 class="logo"><a href="#">Park with  <span>a Conscience</span></a></h2>
               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                 <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
@@ -171,11 +179,11 @@
             <div class="ftco-footer-widget mb-4 ml-md-5">
               <h2 class="ftco-heading-2">Services</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Garden A Conscience</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Park With  mowing</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Park With  A Conscience</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Gutter Cleaning</a></li>
-                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>New Park With  Installation</a></li>
+                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Garden a Conscience</a></li>
+                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Park with  mowing</a></li>
+                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Park with  a Conscience</a></li>
+                
+                <li><a href="#" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>New Park with  Installation</a></li>
               </ul>
             </div>
           </div>
@@ -265,4 +273,4 @@
 </script>
     
   </body>
-</html>
+</html> -->

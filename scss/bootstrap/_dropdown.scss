@@ -7,8 +7,8 @@
 }
 
 .dropdown-toggle {
-  // Generate the A Consciencet automatically
-  @include A Consciencet;
+  // Generate the a Consciencet automatically
+  @include a Consciencet;
 }
 
 // The dropdown menu
@@ -66,7 +66,7 @@
   }
 
   .dropdown-toggle {
-    @include A Consciencet(up);
+    @include a Consciencet(up);
   }
 }
 
@@ -80,7 +80,7 @@
   }
 
   .dropdown-toggle {
-    @include A Consciencet(right);
+    @include a Consciencet(right);
     &::after {
       vertical-align: 0;
     }
@@ -97,7 +97,7 @@
   }
 
   .dropdown-toggle {
-    @include A Consciencet(left);
+    @include a Consciencet(left);
     &::before {
       vertical-align: 0;
     }

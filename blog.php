@@ -1,3 +1,16 @@
+<?php
+
+$response = file_get_contents('http://103.87.24.58/stockapi/Plant');
+$response = json_decode($response,true);
+// $response = new SimpleXMLElement($response);
+asort($response);
+if(isset($_GET['debug']))
+{
+echo "<pre>";
+print_r($response);
+}
+ 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,7 +33,9 @@
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>#more {display: none;}</style>
   </head>
+  
   <body>
 
     <div class="container pt-5 pb-4">
@@ -77,123 +92,59 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
           <div class="col-md-9 ftco-animate pb-5 text-center">
-            <h1 class="mb-3 bread">Free Nursery</h1>
-            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Services <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-3 bread">Plants</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Plants <i class="ion-ios-arrow-forward"></i></span></p>
           </div>
         </div>
       </div>
     </section>
    	
-		<!-- <section class="ftco-section ftco-no-pt ftco-no-pb">
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-lg-3 py-5 order-md-last">
-	          <div class="heading-section ftco-animate">
-	          	<span class="subheading">Services</span>
-	            <h2 class="mb-4">Park with  Services</h2>
-	            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your.</p>
-	            <p><a href="#" class="btn btn-primary py-3 px-4">Get a Quote</a></p>
-	          </div>
-    			</div>
-    			<div class="col-lg-9 services-wrap px-4 pt-5">
-    				<div class="row pt-md-3">
-    					<div class="col-md-4 d-flex align-items-stretch">
-		    				<div class="services text-center">
-		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-fence"></span>
-		    					</div>
-		    					<div class="text">
-		    						<h3>Garden a Conscience</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
-		    					</div>
-		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 d-flex align-items-stretch">
-		    				<div class="services text-center">
-		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-Park with -mower"></span>
-		    					</div>
-		    					<div class="text">
-		    						<h3>Park with  mowing</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
-		    					</div>
-		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 d-flex align-items-stretch">
-		    				<div class="services text-center">
-		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-natural-resources"></span>
-		    					</div>
-		    					<div class="text">
-		    						<h3>Park with  a Conscience</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
-		    					</div>
-		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
-		    				</div>
-		    			</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </section> -->
+		<section class="ftco-section bg-light">
+      <div class="container">
+        <div class="row d-flex">
 
-    <section class="ftco-section">
-    	<div class="container">
-    		<div class="row justify-content-center mb-5">
-          <div class="col-md-10 text-center heading-section ftco-animate">
-          	<span class="subheading">Tips &amp; Techniques</span>
-            <h2 class="mb-4">Seasonal Park with  a Conscience Tips</h2>
-          </div>
-        </div>
-        <div class="row">
-        	<div class="col-md-12">
-        		<div class="carousel-seasonal owl-carousel ftco-owl">
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-1.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
+        <?php if(!empty($response)) {
+            foreach($response as $item){ 
+              //https://drive.google.com/uc?export=view&id=0B6wwyazyzml-OGQ3VUo0Z2thdmc
+              // var_dump(parse_url($item['image'], PHP_URL_QUERY));die;
+              $imageParams = parse_url($item['image'], PHP_URL_QUERY);
+              $explodedStr = explode("&", $imageParams);
+              $imageUrl = '';
+              if(isset($explodedStr[1]))
+              {
+                $idParams = explode("=", $explodedStr[1]);
+                $imageUrl = "https://drive.google.com/uc?export=view&id=" . $idParams[1];
+              }
+
+              ?>
+          <div class="col-md-4 d-flex ftco-animate">
+          	<div class="blog-entry justify-content-end">
+              <a href="plant-single.php.php?id=<?php echo $item['code']; ?>" class="block-20" style="background-image: url('<?=$imageUrl;?>');">
+              </a>
+              <div class="text p-4 float-right d-block">
+              	<div class="topper d-flex align-items-center">
+              		<div class="one py-2 pl-3 pr-1 align-self-stretch">
+              			<span class="day"><?=$item['code'];?> - <?=$item['plant_Name'];?></span>
+              		</div>
+              		<!-- <div class="two pl-0 pr-3 py-2 align-self-stretch">
+              			<span class="yr">2020</span>
+              			<span class="mos">January</span>
+              		</div> -->
+              	</div>
+              	<!-- <h3 class="heading mb-0"><a href="#">All you want to know about industrial laws</a></h3> -->
+                <p>यह एक बारहमासी पौधा है। पौधा घना हो जाता है और परिपक्व पौधा झाड़ी का आकार भी ले लेता है। यह पौधा 3 फीट तक बढ़ सकता है और फैल सकता है <span id="dots">...</span><span id="more">। यह सूर्य से प्यार करने वाला पौधा है और इसमें सफेद फूल खिलते हैं। हम इस पौधे को कम से कम 04 घंटे की सीधी धूप के साथ बालकनी में भी उगा सकते हैं। खिलने का समय पूरे वर्ष के लिए होता है (ठंढ, अत्यधिक ठंड को छोड़कर)। 
+                  यह संयंत्र लगभग रखरखाव मुक्त है। उर्वरकों के बिना भी, यह पौधा संतोषजनक वृद्धि दिखाएगा। हालांकि, उर्वरक का उपयोग तेजी से विकास और अधिक खिलने को दर्शाता है। वायुमंडलीय आर्द्रता के निम्न स्तर (20%) के साथ भी, यह पौधा स्वस्थ रूप से विकसित होता रहता है। 
+                </span>
+                  </p>
+                
               </div>
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-2.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-3.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-4.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
-              </div>
-			  <div class="item">
-				<div class="wrap">
-						  <div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-4.jpg);">
-						  </div>
-						  <div class="text text-center px-4">
-							  </div>
-					  </div>
-			</div>
             </div>
-        	</div>
-        </div>
-    	</div>
+          </div>
+          <?php }} ?>
+          </div>
+    
+         
+      </div>
     </section>
 
     <section class="ftco-section ftco-no-pt ftco-no-pb bg-primary">
@@ -284,7 +235,23 @@
     </footer>
     
   
-
+    <script>
+      function myFunction() {
+        var dots = document.getElementById("dots");
+        var moreText = document.getElementById("more");
+        var btnText = document.getElementById("myBtn");
+      
+        if (dots.style.display === "none") {
+          dots.style.display = "inline";
+          btnText.innerHTML = "Read more"; 
+          moreText.style.display = "none";
+        } else {
+          dots.style.display = "none";
+          btnText.innerHTML = "Read less"; 
+          moreText.style.display = "inline";
+        }
+      }
+      </script>
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
@@ -314,4 +281,4 @@
 </script>
     
   </body>
-</html>
+</html> -->

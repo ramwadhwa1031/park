@@ -1,3 +1,18 @@
+<?php 
+if(isset($_GET['id'])){
+  $id=$_GET['id'];
+$response = file_get_contents('http://103.87.24.58/stockapi/Plant/'.$id.'');
+$response = json_decode($response,true);
+//$response = new SimpleXMLElement($response);
+// echo "<pre>";
+// //echo "hello";
+// print_r($response);
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -59,142 +74,95 @@
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
 	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav m-auto">
+        <ul class="navbar-nav m-auto">
 	        	<li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
 	        	<li class="nav-item"><a href="about.html" class="nav-link">Our Story</a></li>
             <li class="nav-item"><a href="services.html" class="nav-link">Free Nusery</a></li>
 	        	<li class="nav-item"><a href="gallery.html" class="nav-link">Events</a></li>
 	        	<li class="nav-item"><a href="plants.php" class="nav-link">Plants</a></li>
+				<li class="nav-item"><a href="pit.html" class="nav-link">Compost Pit</a></li>
 	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
 	        </ul>
 	      </div>
 	    </div>
 	  </nav>
     <!-- END nav -->
-    
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+    <?php if(!empty($response)) {
+            foreach($response as $item){ 
+              //https://drive.google.com/uc?export=view&id=0B6wwyazyzml-OGQ3VUo0Z2thdmc
+              // var_dump(parse_url($item['image'], PHP_URL_QUERY));die;
+              $imageParams = parse_url($item['image'], PHP_URL_QUERY);
+              $explodedStr = explode("&", $imageParams);
+              $imageUrl = '';
+              if(isset($explodedStr[1]))
+              {
+                $idParams = explode("=", $explodedStr[1]);
+                $imageUrl = "https://drive.google.com/uc?export=view&id=" . $idParams[1];
+              }
+
+              ?>
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('<?=$imageUrl;?>');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
           <div class="col-md-9 ftco-animate pb-5 text-center">
-            <h1 class="mb-3 bread">Free Nursery</h1>
-            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Services <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-3 bread"><?=$item['code'];?> - <?=$item['plant_Name'];?></h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home </span></p>
           </div>
         </div>
       </div>
     </section>
-   	
-		<!-- <section class="ftco-section ftco-no-pt ftco-no-pb">
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-lg-3 py-5 order-md-last">
-	          <div class="heading-section ftco-animate">
-	          	<span class="subheading">Services</span>
-	            <h2 class="mb-4">Park with  Services</h2>
-	            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your.</p>
-	            <p><a href="#" class="btn btn-primary py-3 px-4">Get a Quote</a></p>
-	          </div>
-    			</div>
-    			<div class="col-lg-9 services-wrap px-4 pt-5">
-    				<div class="row pt-md-3">
-    					<div class="col-md-4 d-flex align-items-stretch">
-		    				<div class="services text-center">
-		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-fence"></span>
-		    					</div>
-		    					<div class="text">
-		    						<h3>Garden a Conscience</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
-		    					</div>
-		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 d-flex align-items-stretch">
-		    				<div class="services text-center">
-		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-Park with -mower"></span>
-		    					</div>
-		    					<div class="text">
-		    						<h3>Park with  mowing</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
-		    					</div>
-		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
-		    				</div>
-		    			</div>
-		    			<div class="col-md-4 d-flex align-items-stretch">
-		    				<div class="services text-center">
-		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-natural-resources"></span>
-		    					</div>
-		    					<div class="text">
-		    						<h3>Park with  a Conscience</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
-		    					</div>
-		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
-		    				</div>
-		    			</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </section> -->
 
-    <section class="ftco-section">
-    	<div class="container">
-    		<div class="row justify-content-center mb-5">
-          <div class="col-md-10 text-center heading-section ftco-animate">
-          	<span class="subheading">Tips &amp; Techniques</span>
-            <h2 class="mb-4">Seasonal Park with  a Conscience Tips</h2>
-          </div>
-        </div>
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
         <div class="row">
-        	<div class="col-md-12">
-        		<div class="carousel-seasonal owl-carousel ftco-owl">
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-1.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
+          <div class="col-md-8 ftco-animate">
+              <img src="<?=$imageUrl;?>" width="600px" alt="" class="img-fluid">
+        
+            <h2 class="mb-3"><?=$item['code'];?> - <?=$item['plant_Name'];?></h2>
+            <p><?=$item['about'];?></p> 
+          </div>
+          <div class="col-md-4 sidebar  ftco-animate">
+            
+
+            <div class="sidebar-box ftco-animate">
+              <h3>Recent Blog</h3>
+              <div class="block-21 mb-4 d-flex">
+                <a class="blog-img mr-4" style="background-image: url(images/weather.png);"></a>
+                <div class="text">
+                  <h3 class="heading"><a href="#"><?=$item['sun_Exposure'];?></a></h3>
+                 
+                </div>
               </div>
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-2.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-3.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="wrap">
-			        		<div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-4.jpg);">
-			        		</div>
-			        		<div class="text text-center px-4">
-		        				</div>
-		        		</div>
-              </div>
-			  <div class="item">
-				<div class="wrap">
-						  <div class="seasonal img d-flex align-items-center justify-content-center" style="background-image: url(images/seasonal-4.jpg);">
-						  </div>
-						  <div class="text text-center px-4">
-							  </div>
-					  </div>
-			</div>
+              <div class="block-21 mb-4 d-flex">
+                <a class="blog-img mr-4" style="background-image: url(images/lifecycle.png);"></a>
+                <div class="text">
+                  <h3 class="heading"><a href="#"><?=$item['life_Cycle'];?></a></h3>
+                  
+                </div>
             </div>
-        	</div>
+              <div class="block-21 mb-4 d-flex">
+                <a class="blog-img mr-4" style="background-image: url(images/uses.png);"></a>
+                <div class="text">
+                  <h3 class="heading"><a href="#"><?=$item['uses'];?></a></h3>
+                  
+                </div>
+              </div>
+            </div>
+
+            
+
+            
+          </div>
+
         </div>
-    	</div>
-    </section>
+            
+      </div>
+        <?php }} ?>
+          </div> <!-- .col-md-8 -->
+        
+      </div>
+    </section> <!-- .section -->
 
     <section class="ftco-section ftco-no-pt ftco-no-pb bg-primary">
       <div class="container">

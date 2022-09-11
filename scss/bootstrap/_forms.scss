@@ -29,7 +29,7 @@
   @include box-shadow($input-box-shadow);
   @include transition($input-transition);
 
-  // Unstyle the A Consciencet on `<select>`s in IE10+.
+  // Unstyle the a Consciencet on `<select>`s in IE10+.
   &::-ms-expand {
     background-color: transparent;
     border: 0;
